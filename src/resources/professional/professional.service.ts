@@ -8,6 +8,7 @@ import { UpdateProfessionalDto } from './dto/update-professional.dto';
 import { Professional } from './entities/professional.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class ProfessionalService {
@@ -19,7 +20,7 @@ export class ProfessionalService {
     create(createProfessionalDto: CreateProfessionalDto) {
         const professional: Professional = new Professional(
             createProfessionalDto.email,
-            createProfessionalDto.password,
+            bcrypt.hashSync(createProfessionalDto.password, 10),
             createProfessionalDto.name,
             createProfessionalDto.surname,
             createProfessionalDto.gender,

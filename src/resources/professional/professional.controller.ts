@@ -11,11 +11,13 @@ import {
 import { ProfessionalService } from './professional.service';
 import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
+import { Public } from 'src/shared/decorators/public.decorator';
 
 @Controller('professional')
 export class ProfessionalController {
     constructor(private readonly professionalService: ProfessionalService) {}
 
+    @Public()
     @Post()
     create(@Body() createProfessionalDto: CreateProfessionalDto) {
         return this.professionalService.create(createProfessionalDto);

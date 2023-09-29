@@ -11,4 +11,8 @@ export default () => ({
         logging: true,
         autoLoadEntities: true,
     },
+    auth: {
+        privateKey: process.env.AUTH_PRIVATE_KEY,
+        publicKey: process.env.AUTH_PUBLIC_KEY,
+    },
 });
