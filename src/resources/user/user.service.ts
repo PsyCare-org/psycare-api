@@ -1,8 +1,4 @@
-import {
-    BadRequestException,
-    Injectable,
-    NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -12,9 +8,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-    constructor(
-        @InjectRepository(User) private readonly repo: Repository<User>,
-    ) {}
+    constructor(@InjectRepository(User) private readonly repo: Repository<User>) {}
 
     async create(createUserDto: CreateUserDto) {
         const user: User = new User(
@@ -28,9 +22,7 @@ export class UserService {
 
         return this.repo.save(user).catch((err) => {
             if (/(email)[\s\S]+(already exists)/.test(err.detail)) {
-                throw new BadRequestException(
-                    'Account with this email already exists.',
-                );
+                throw new BadRequestException('Account with this email already exists.');
             }
             throw new BadRequestException(err.message);
         });

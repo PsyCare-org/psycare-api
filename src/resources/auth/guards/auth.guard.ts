@@ -1,8 +1,4 @@
-import {
-    ExecutionContext,
-    Injectable,
-    UnauthorizedException,
-} from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
@@ -12,11 +8,7 @@ import { IS_PUBLIC_KEY } from 'src/shared/constants/is-public-key';
 
 @Injectable()
 export class AuthGuard extends PassportGuard('jwt') {
-    constructor(
-        private reflector: Reflector,
-        private jwtService: JwtService,
-        private configService: ConfigService,
-    ) {
+    constructor(private reflector: Reflector, private jwtService: JwtService, private configService: ConfigService) {
         super();
     }
 
@@ -26,10 +18,7 @@ export class AuthGuard extends PassportGuard('jwt') {
     }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        const isPublic = this.reflector.getAllAndOverride<boolean>(
-            IS_PUBLIC_KEY,
-            [context.getHandler(), context.getClass()],
-        );
+        const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [context.getHandler(), context.getClass()]);
 
         if (isPublic) return true;
 

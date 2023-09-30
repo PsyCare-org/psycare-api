@@ -23,10 +23,6 @@ import { APP_GUARD } from '@nestjs/core';
         }),
     ],
     controllers: [AuthController],
-    providers: [
-        AuthService,
-        AuthStrategy,
-        { provide: APP_GUARD, useClass: AuthGuard },
-    ],
+    providers: [AuthService, AuthStrategy, { provide: APP_GUARD, useClass: AuthGuard }],
 })
 export class AuthModule {}

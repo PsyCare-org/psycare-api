@@ -1,8 +1,4 @@
-import {
-    BadRequestException,
-    Injectable,
-    NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
 import { Professional } from './entities/professional.entity';
@@ -36,9 +32,7 @@ export class ProfessionalService {
 
         this.repo.save(professional).catch((err) => {
             if (/(email)[\s\S]+(already exists)/.test(err.detail)) {
-                throw new BadRequestException(
-                    'Account with this email already exists.',
-                );
+                throw new BadRequestException('Account with this email already exists.');
             }
             throw new BadRequestException(err.message);
         });
@@ -55,10 +49,7 @@ export class ProfessionalService {
             throw new NotFoundException();
         }
 
-        const updatedProfessional = Object.assign(
-            oldProfessional,
-            updateProfessionalDto,
-        );
+        const updatedProfessional = Object.assign(oldProfessional, updateProfessionalDto);
 
         return this.repo.save(updatedProfessional);
     }

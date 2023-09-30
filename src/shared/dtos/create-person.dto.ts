@@ -1,12 +1,4 @@
-import {
-    IsDateString,
-    IsEmail,
-    IsEnum,
-    IsNotEmpty,
-    IsString,
-    IsStrongPassword,
-    ValidateIf,
-} from 'class-validator';
+import { IsDateString, IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, ValidateIf } from 'class-validator';
 import { Gender } from 'src/shared/enums/gender';
 
 export class CreatePersonDto {

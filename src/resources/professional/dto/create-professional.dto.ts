@@ -1,10 +1,4 @@
-import {
-    IsArray,
-    IsEnum,
-    IsNotEmpty,
-    IsString,
-    ValidateIf,
-} from 'class-validator';
+import { IsArray, IsEnum, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 import { CreatePersonDto } from 'src/shared/dtos/create-person.dto';
 import { ProfessionalType } from 'src/shared/enums/professional-type';
 

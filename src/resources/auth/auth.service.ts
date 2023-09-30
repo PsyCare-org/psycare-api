@@ -26,10 +26,7 @@ export class AuthService {
         }
 
         const personType = !!user ? 'user' : 'professional';
-        const isValid = bcrypt.compareSync(
-            password,
-            personType === 'user' ? user.password : professional.password,
-        );
+        const isValid = bcrypt.compareSync(password, personType === 'user' ? user.password : professional.password);
 
         if (!isValid) {
             throw new InvalidCredentialsException();
