@@ -61,6 +61,7 @@ export class Professional extends Person {
     constructor(
         email: string,
         password: string,
+        phoneNumber: string = null,
         name: string,
         surname: string,
         gender: Gender,
@@ -73,7 +74,7 @@ export class Professional extends Person {
         description?: string,
         historic?: string,
     ) {
-        super(email, password, name, surname, gender, birthDate);
+        super(email, password, phoneNumber, name, surname, gender, birthDate);
 
         this.type = type;
         this.languages = languages;

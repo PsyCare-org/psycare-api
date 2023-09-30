@@ -17,6 +17,7 @@ export class ProfessionalService {
         const professional: Professional = new Professional(
             createProfessionalDto.email,
             bcrypt.hashSync(createProfessionalDto.password, 10),
+            createProfessionalDto.phoneNumber,
             createProfessionalDto.name,
             createProfessionalDto.surname,
             createProfessionalDto.gender,

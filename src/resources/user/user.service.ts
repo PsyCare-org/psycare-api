@@ -14,6 +14,7 @@ export class UserService {
         const user: User = new User(
             createUserDto.email,
             bcrypt.hashSync(createUserDto.password, 10),
+            createUserDto.phoneNumber,
             createUserDto.name,
             createUserDto.surname,
             createUserDto.gender,

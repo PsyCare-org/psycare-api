@@ -1,4 +1,4 @@
-import { IsDateString, IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, ValidateIf } from 'class-validator';
+import { IsDateString, IsEmail, IsEnum, IsNotEmpty, IsPhoneNumber, IsString, IsStrongPassword, ValidateIf } from 'class-validator';
 import { Gender } from 'src/shared/enums/gender';
 
 export class CreatePersonDto {
@@ -15,6 +15,10 @@ export class CreatePersonDto {
         minUppercase: 1,
     })
     password: string;
+
+    @IsPhoneNumber('BR')
+    @IsString()
+    phoneNumber?: string;
 
     @IsNotEmpty()
     @IsString()

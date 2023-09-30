@@ -20,6 +20,13 @@ export class Person {
 
     @Column({
         type: 'varchar',
+        length: 11,
+        nullable: true,
+    })
+    phoneNumber?: string;
+
+    @Column({
+        type: 'varchar',
         length: 255,
     })
     name: string;
@@ -48,9 +55,10 @@ export class Person {
     @CreateDateColumn()
     updatedAt: Date;
 
-    constructor(email: string, password: string, name: string, surname: string, gender: Gender, birthDate: Date) {
+    constructor(email: string, password: string, phoneNumber: string, name: string, surname: string, gender: Gender, birthDate: Date) {
         this.email = email;
         this.password = password;
+        this.phoneNumber = phoneNumber;
         this.name = name;
         this.surname = surname;
         this.gender = gender;

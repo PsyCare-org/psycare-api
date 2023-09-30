@@ -1,9 +1,13 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreatePersonDto } from './create-person.dto';
-import { IsEnum, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsPhoneNumber, IsString, ValidateIf } from 'class-validator';
 import { Gender } from 'src/shared/enums/gender';
 
 export class UpdatePersonDto extends PartialType(CreatePersonDto) {
+    @IsPhoneNumber('BR')
+    @IsString()
+    phoneNumber?: string;
+
     @IsNotEmpty()
     @IsString()
     name: string;
