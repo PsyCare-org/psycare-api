@@ -20,7 +20,7 @@ export class Person {
 
     @Column({
         type: 'varchar',
-        length: 11,
+        length: 15,
         nullable: true,
     })
     phoneNumber?: string;

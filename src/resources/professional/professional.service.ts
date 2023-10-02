@@ -31,7 +31,7 @@ export class ProfessionalService {
             createProfessionalDto.historic,
         );
 
-        this.repo.save(professional).catch((err) => {
+        return this.repo.save(professional).catch((err) => {
             if (/(email)[\s\S]+(already exists)/.test(err.detail)) {
                 throw new BadRequestException('Account with this email already exists.');
             }

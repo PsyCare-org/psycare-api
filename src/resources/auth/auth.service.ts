@@ -22,7 +22,7 @@ export class AuthService {
         const professional = await this.proRepo.findOne({ where: { email } });
 
         if (!user && !professional) {
-            throw new NotFoundException();
+            throw new NotFoundException({}, 'Usuário não encontrado');
         }
 
         const personType = !!user ? 'user' : 'professional';
@@ -33,6 +33,9 @@ export class AuthService {
         }
 
         return {
+            id: user ? user.id : professional.id,
+            name: !!user ? user.name : professional.name,
+            email: !!user ? user.email : professional.email,
             accessToken: this.jwtService.sign({
                 sub: !!user ? user.id : professional.id,
                 email: !!user ? user.email : professional.email,
