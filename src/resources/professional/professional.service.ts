@@ -33,7 +33,7 @@ export class ProfessionalService {
             let result: boolean;
             let attempts = 0;
 
-            while (attempts > 3) {
+            while (attempts < 3) {
                 await page.click('button.form-group');
 
                 const request = page.waitForResponse((res) => res.url().includes('/psi/busca'));
@@ -44,6 +44,7 @@ export class ProfessionalService {
 
                         if (Array.isArray(res)) {
                             result = res.findIndex((el) => el.Nome.toLowerCase().includes(professional.name.toLowerCase()) && el.situacao === 'ATIVO') !== -1;
+                            attempts = 3;
                         }
                     })
                     .catch((error) => {
