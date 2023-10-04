@@ -1,5 +1,6 @@
 export default () => ({
     port: parseInt(process.env.PORT) || 8000,
+    cfpUrl: 'https://cadastro.cfp.org.br/',
     database: {
         type: 'postgres',
         host: process.env.DB_HOST,

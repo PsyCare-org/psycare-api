@@ -3,6 +3,14 @@ import { CreatePersonDto } from 'src/shared/dtos/create-person.dto';
 import { ProfessionalType } from 'src/shared/enums/professional-type';
 
 export class CreateProfessionalDto extends CreatePersonDto {
+    @IsString()
+    @IsNotEmpty()
+    cpf: string;
+
+    @IsString()
+    @IsNotEmpty()
+    crp: string;
+
     @IsEnum(ProfessionalType)
     @IsNotEmpty()
     type: ProfessionalType;

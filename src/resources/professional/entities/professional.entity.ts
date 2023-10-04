@@ -6,6 +6,20 @@ import { Column, Entity } from 'typeorm';
 @Entity('professional')
 export class Professional extends Person {
     @Column({
+        type: 'varchar',
+        length: 14,
+        unique: true,
+    })
+    cpf: string;
+
+    @Column({
+        type: 'varchar',
+        length: 8,
+        unique: true,
+    })
+    crp: string;
+
+    @Column({
         type: 'enum',
         enum: ProfessionalType,
     })
@@ -66,6 +80,8 @@ export class Professional extends Person {
         surname: string,
         gender: Gender,
         birthDate: Date,
+        cpf: string,
+        crp: string,
         type: ProfessionalType,
         languages: string[],
         abstract: string,
@@ -76,6 +92,8 @@ export class Professional extends Person {
     ) {
         super(email, password, phoneNumber, name, surname, gender, birthDate);
 
+        this.cpf = cpf;
+        this.crp = crp;
         this.type = type;
         this.languages = languages;
         this.abstract = abstract;

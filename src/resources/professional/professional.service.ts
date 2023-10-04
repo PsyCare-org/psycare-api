@@ -5,15 +5,65 @@ import { Professional } from './entities/professional.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import puppeteer from 'puppeteer';
+import { ConfigService } from '@nestjs/config';
+import { ValidateProfessionalException } from 'src/shared/exceptions/validate-professional';
 
 @Injectable()
 export class ProfessionalService {
     constructor(
         @InjectRepository(Professional)
         private readonly repo: Repository<Professional>,
+        private config: ConfigService,
     ) {}
 
-    create(createProfessionalDto: CreateProfessionalDto) {
+    private async validateProfessional(professional: Professional): Promise<boolean> {
+        const brower = await puppeteer.launch({
+            headless: 'new',
+            debuggingPort: 0,
+        });
+
+        try {
+            const page = await brower.newPage();
+            await page.goto(this.config.get('cfpUrl'), { waitUntil: 'networkidle2' });
+            await page.click('[data-target="#buscaAvancada"]');
+            await page.type('#registroconselho', professional.crp.split('/')[1]);
+            await page.type('#cpf', professional.cpf);
+
+            let result: boolean;
+            let attempts = 0;
+
+            while (attempts > 3) {
+                await page.click('button.form-group');
+
+                const request = page.waitForResponse((res) => res.url().includes('/psi/busca'));
+
+                await request
+                    .then(async (response) => {
+                        const res = await response.json();
+
+                        if (Array.isArray(res)) {
+                            result = res.findIndex((el) => el.Nome.toLowerCase().includes(professional.name.toLowerCase()) && el.situacao === 'ATIVO') !== -1;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        attempts++;
+                    });
+            }
+
+            await page.close();
+
+            return result;
+        } catch (error) {
+            console.error(error);
+            throw new ValidateProfessionalException();
+        } finally {
+            brower.close();
+        }
+    }
+
+    async create(createProfessionalDto: CreateProfessionalDto) {
         const professional: Professional = new Professional(
             createProfessionalDto.email,
             bcrypt.hashSync(createProfessionalDto.password, 10),
@@ -22,6 +72,8 @@ export class ProfessionalService {
             createProfessionalDto.surname,
             createProfessionalDto.gender,
             new Date(createProfessionalDto.birthDate),
+            createProfessionalDto.cpf,
+            createProfessionalDto.crp,
             createProfessionalDto.type,
             createProfessionalDto.languages,
             createProfessionalDto.abstract,
@@ -30,6 +82,11 @@ export class ProfessionalService {
             createProfessionalDto.description,
             createProfessionalDto.historic,
         );
+
+        const isProfessionalValid = await this.validateProfessional(professional);
+        if (!isProfessionalValid) {
+            throw new BadRequestException('Invalid Professional credentials (CPF, CRP and Name)');
+        }
 
         return this.repo.save(professional).catch((err) => {
             if (/(email)[\s\S]+(already exists)/.test(err.detail)) {
