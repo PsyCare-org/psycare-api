@@ -1,5 +1,6 @@
 import { IsArray, IsEnum, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 import { CreatePersonDto } from 'src/shared/dtos/create-person.dto';
+import { Language } from 'src/shared/enums/language';
 import { ProfessionalType } from 'src/shared/enums/professional-type';
 
 export class CreateProfessionalDto extends CreatePersonDto {
@@ -17,7 +18,7 @@ export class CreateProfessionalDto extends CreatePersonDto {
 
     @IsArray()
     @IsNotEmpty()
-    languages: string[];
+    languages: Language[];
 
     @IsString()
     @IsNotEmpty()

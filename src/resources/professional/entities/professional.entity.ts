@@ -1,5 +1,6 @@
 import { Person } from 'src/shared/classes/person';
 import { Gender } from 'src/shared/enums/gender';
+import { Language } from 'src/shared/enums/language';
 import { ProfessionalType } from 'src/shared/enums/professional-type';
 import { Column, Entity } from 'typeorm';
 
@@ -8,6 +9,7 @@ export class Professional extends Person {
     @Column({
         type: 'varchar',
         length: 14,
+        select: false,
     })
     cpf: string;
 
@@ -24,11 +26,12 @@ export class Professional extends Person {
     type: ProfessionalType;
 
     @Column({
-        type: 'varchar',
+        type: 'enum',
+        enum: Language,
         array: true,
-        length: 255,
+        default: [Language.portuguese],
     })
-    languages: string[];
+    languages: Language[];
 
     @Column({
         type: 'varchar',
@@ -81,7 +84,7 @@ export class Professional extends Person {
         cpf: string,
         crp: string,
         type: ProfessionalType,
-        languages: string[],
+        languages: Language[],
         abstract: string,
         expericences?: string,
         specializations?: string,
