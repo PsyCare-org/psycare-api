@@ -8,14 +8,12 @@ export class Professional extends Person {
     @Column({
         type: 'varchar',
         length: 14,
-        unique: true,
     })
     cpf: string;
 
     @Column({
         type: 'varchar',
         length: 8,
-        unique: true,
     })
     crp: string;
 

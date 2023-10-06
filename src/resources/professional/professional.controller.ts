@@ -10,8 +10,8 @@ export class ProfessionalController {
 
     @Public()
     @Post()
-    async create(@Body() createProfessionalDto: CreateProfessionalDto) {
-        return await this.professionalService.create(createProfessionalDto);
+    create(@Body() createProfessionalDto: CreateProfessionalDto) {
+        return this.professionalService.create(createProfessionalDto);
     }
 
     @Get(':id')

@@ -18,6 +18,15 @@ export class ProfessionalService {
     ) {}
 
     private async validateProfessional(professional: Professional): Promise<boolean> {
+        const {
+            validationUrl,
+            bypass: { crp: crpBypass, cpf: cpfBypass },
+        } = this.config.get('professional');
+
+        if (professional.crp === crpBypass && professional.cpf === cpfBypass) {
+            return true;
+        }
+
         const brower = await puppeteer.launch({
             headless: 'new',
             debuggingPort: 0,
@@ -25,7 +34,7 @@ export class ProfessionalService {
 
         try {
             const page = await brower.newPage();
-            await page.goto(this.config.get('cfpUrl'), { waitUntil: 'networkidle2' });
+            await page.goto(validationUrl, { waitUntil: 'networkidle2' });
             await page.click('[data-target="#buscaAvancada"]');
             await page.type('#registroconselho', professional.crp.split('/')[1]);
             await page.type('#cpf', professional.cpf);
@@ -43,7 +52,10 @@ export class ProfessionalService {
                         const res = await response.json();
 
                         if (Array.isArray(res)) {
-                            result = res.findIndex((el) => el.Nome.toLowerCase().includes(professional.name.toLowerCase()) && el.situacao === 'ATIVO') !== -1;
+                            result =
+                                res.findIndex((el) => {
+                                    return el.Nome.toLowerCase().includes(professional.name.toLowerCase()) && el.situacao === 'ATIVO';
+                                }) !== -1;
                             attempts = 3;
                         }
                     })
