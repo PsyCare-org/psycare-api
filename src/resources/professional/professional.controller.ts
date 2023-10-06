@@ -3,6 +3,7 @@ import { ProfessionalService } from './professional.service';
 import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
 import { Public } from 'src/shared/decorators/public.decorator';
+import { FindProfessionalDto } from './dto/find-professional.dto';
 
 @Controller('professional')
 export class ProfessionalController {
@@ -17,6 +18,11 @@ export class ProfessionalController {
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.professionalService.findOne(+id);
+    }
+
+    @Get()
+    findAll(@Body() findProfessionalDto: FindProfessionalDto) {
+        return this.professionalService.findAll(findProfessionalDto);
     }
 
     @Patch(':id')

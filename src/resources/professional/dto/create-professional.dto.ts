@@ -17,6 +17,7 @@ export class CreateProfessionalDto extends CreatePersonDto {
     type: ProfessionalType;
 
     @IsArray()
+    @IsEnum(Language, { each: true })
     @IsNotEmpty()
     languages: Language[];
 

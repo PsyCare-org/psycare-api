@@ -29,7 +29,6 @@ export class Professional extends Person {
         type: 'enum',
         enum: Language,
         array: true,
-        default: [Language.portuguese],
     })
     languages: Language[];
 

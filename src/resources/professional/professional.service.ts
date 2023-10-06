@@ -3,11 +3,12 @@ import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
 import { Professional } from './entities/professional.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ArrayContains, FindOptionsWhere, Like, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import puppeteer from 'puppeteer';
 import { ConfigService } from '@nestjs/config';
 import { ValidateProfessionalException } from 'src/shared/exceptions/validate-professional';
+import { FindProfessionalDto } from './dto/find-professional.dto';
 
 @Injectable()
 export class ProfessionalService {
@@ -111,6 +112,33 @@ export class ProfessionalService {
 
     findOne(id: number) {
         return this.repo.findOne({ where: { id } });
+    }
+
+    async findAll(findProfessionalDto: FindProfessionalDto) {
+        const { take, skip, type, languages, reason } = findProfessionalDto;
+
+        const typeAndLangFilter: FindOptionsWhere<Professional> = {
+            ...(type && { type }),
+            ...(languages && { languages: ArrayContains(languages) }),
+        };
+
+        const likeColumns = ['abstract', 'expericences', 'specializations', 'description', 'historic'];
+
+        const [result, total] = await this.repo.findAndCount({
+            take: take,
+            skip: skip,
+            where: reason
+                ? likeColumns.map((column) => ({
+                      [column]: Like(`%${reason}%`),
+                      ...typeAndLangFilter,
+                  }))
+                : { ...typeAndLangFilter },
+        });
+
+        return {
+            total,
+            data: result,
+        };
     }
 
     async update(id: number, updateProfessionalDto: UpdateProfessionalDto) {

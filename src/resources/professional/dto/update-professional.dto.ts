@@ -1,10 +1,11 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateProfessionalDto } from './create-professional.dto';
-import { IsArray, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
+import { IsArray, IsEnum, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 import { Language } from 'src/shared/enums/language';
 
 export class UpdateProfessionalDto extends PartialType(CreateProfessionalDto) {
     @IsArray()
+    @IsEnum(Language, { each: true })
     @IsNotEmpty()
     languages: Language[];
 
