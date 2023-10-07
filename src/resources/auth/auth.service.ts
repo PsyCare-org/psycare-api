@@ -20,11 +20,11 @@ export class AuthService {
     async signIn({ email, password }: SignInDto) {
         const user = await this.userRepo.findOne({
             where: { email },
-            select: { password: true },
+            select: { id: true, name: true, email: true, password: true },
         });
         const professional = await this.proRepo.findOne({
             where: { email },
-            select: { password: true },
+            select: { id: true, name: true, email: true, password: true },
         });
 
         if (!user && !professional) {
@@ -39,12 +39,13 @@ export class AuthService {
         }
 
         return {
-            id: user ? user.id : professional.id,
-            name: !!user ? user.name : professional.name,
-            email: !!user ? user.email : professional.email,
+            id: user?.id || professional?.id,
+            type: personType,
+            name: user?.name || professional?.name,
+            email: user?.email || professional?.email,
             accessToken: this.jwtService.sign({
-                sub: !!user ? user.id : professional.id,
-                email: !!user ? user.email : professional.email,
+                sub: user?.id || professional?.id,
+                email: user?.email || professional?.email,
                 type: personType,
             }),
         };
