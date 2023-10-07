@@ -18,11 +18,17 @@ export class AuthService {
     ) {}
 
     async signIn({ email, password }: SignInDto) {
-        const user = await this.userRepo.findOne({ where: { email } });
-        const professional = await this.proRepo.findOne({ where: { email } });
+        const user = await this.userRepo.findOne({
+            where: { email },
+            select: { password: true },
+        });
+        const professional = await this.proRepo.findOne({
+            where: { email },
+            select: { password: true },
+        });
 
         if (!user && !professional) {
-            throw new NotFoundException({}, 'Usuário não encontrado');
+            throw new NotFoundException({ message: 'Usuário não encontrado' });
         }
 
         const personType = !!user ? 'user' : 'professional';
