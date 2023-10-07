@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Gender } from '../enums/gender';
+import { Avatar } from 'src/resources/avatar/entities/avatar.entity';
 
 export class Person {
     @PrimaryGeneratedColumn()
@@ -49,6 +50,15 @@ export class Person {
         type: 'date',
     })
     birthDate: Date;
+
+    @JoinColumn({ name: 'avatarId' })
+    @OneToOne(() => Avatar, {
+        nullable: true,
+    })
+    avatar?: Avatar | null;
+
+    @Column({ nullable: true })
+    avatarId?: number | null;
 
     @CreateDateColumn()
     createdAt: Date;

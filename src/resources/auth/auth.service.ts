@@ -7,6 +7,7 @@ import { SignInDto } from './dto/sign-in.dto';
 import * as bcrypt from 'bcrypt';
 import { InvalidCredentialsException } from 'src/shared/exceptions/invalid-credentials';
 import { JwtService } from '@nestjs/jwt';
+import { PersonNotFoundException } from 'src/shared/exceptions/person-not-found';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +29,7 @@ export class AuthService {
         });
 
         if (!user && !professional) {
-            throw new NotFoundException({ message: 'Usuário não encontrado' });
+            throw new PersonNotFoundException();
         }
 
         const personType = !!user ? 'user' : 'professional';
