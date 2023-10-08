@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
 import { Professional } from './entities/professional.entity';
@@ -9,6 +9,9 @@ import puppeteer from 'puppeteer';
 import { ConfigService } from '@nestjs/config';
 import { ValidateProfessionalException } from 'src/shared/exceptions/validate-professional';
 import { FindProfessionalDto } from './dto/find-professional.dto';
+import { UpdatePasswordDto } from 'src/shared/dtos/update-password.dto';
+import { PersonNotFoundException } from 'src/shared/exceptions/person-not-found';
+import { InvalidCredentialsException } from 'src/shared/exceptions/invalid-credentials';
 
 @Injectable()
 export class ProfessionalService {
@@ -145,7 +148,7 @@ export class ProfessionalService {
         const oldProfessional = await this.repo.findOne({ where: { id } });
 
         if (!oldProfessional) {
-            throw new NotFoundException();
+            throw new PersonNotFoundException();
         }
 
         const updatedProfessional = Object.assign(oldProfessional, updateProfessionalDto);
@@ -153,11 +156,33 @@ export class ProfessionalService {
         return this.repo.save(updatedProfessional);
     }
 
+    async updatePassword(id: number, updatePasswordDto: UpdatePasswordDto) {
+        const oldProfessional = await this.repo.findOne({
+            where: { id },
+            select: { password: true },
+        });
+
+        if (!oldProfessional) {
+            throw new PersonNotFoundException();
+        }
+
+        const isCurrentPasswordValid = await bcrypt.compare(updatePasswordDto.currentPassword, oldProfessional.password);
+        if (!isCurrentPasswordValid) {
+            throw new InvalidCredentialsException();
+        }
+
+        const updatedUProfessional = Object.assign(oldProfessional, {
+            password: bcrypt.hashSync(updatePasswordDto.newPassword, 10),
+        });
+
+        return this.repo.update({ id }, updatedUProfessional);
+    }
+
     async remove(id: number) {
         const professional = await this.repo.findOne({ where: { id } });
 
         if (!professional) {
-            throw new NotFoundException();
+            throw new PersonNotFoundException();
         }
 
         return this.repo.remove([professional]);

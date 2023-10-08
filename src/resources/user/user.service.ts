@@ -1,10 +1,13 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { UpdatePasswordDto } from 'src/shared/dtos/update-password.dto';
+import { PersonNotFoundException } from 'src/shared/exceptions/person-not-found';
+import { InvalidCredentialsException } from 'src/shared/exceptions/invalid-credentials';
 
 @Injectable()
 export class UserService {
@@ -37,7 +40,7 @@ export class UserService {
         const oldUser = await this.repo.findOne({ where: { id } });
 
         if (!oldUser) {
-            throw new NotFoundException();
+            throw new PersonNotFoundException();
         }
 
         const updatedUser = Object.assign(oldUser, updateUserDto);
@@ -45,11 +48,33 @@ export class UserService {
         return this.repo.save(updatedUser);
     }
 
+    async updatePassword(id: number, updatePasswordDto: UpdatePasswordDto) {
+        const oldUser = await this.repo.findOne({
+            where: { id },
+            select: { password: true },
+        });
+
+        if (!oldUser) {
+            throw new PersonNotFoundException();
+        }
+
+        const isCurrentPasswordValid = await bcrypt.compare(updatePasswordDto.currentPassword, oldUser.password);
+        if (!isCurrentPasswordValid) {
+            throw new InvalidCredentialsException();
+        }
+
+        const updatedUser = Object.assign(oldUser, {
+            password: bcrypt.hashSync(updatePasswordDto.newPassword, 10),
+        });
+
+        return this.repo.update({ id }, updatedUser);
+    }
+
     async remove(id: number) {
         const user = await this.repo.findOne({ where: { id } });
 
         if (!user) {
-            throw new NotFoundException();
+            throw new PersonNotFoundException();
         }
 
         return this.repo.remove([user]);
