@@ -7,37 +7,20 @@ import { Response } from 'express';
 export class AvatarController {
     constructor(private readonly avatarService: AvatarService) {}
 
-    @Get('user/:id')
-    async findUserAvatar(@Param('id') id: number, @Res({ passthrough: true }) res: Response) {
-        return this.avatarService.findById('user', id, res);
+    @Get(':personType/:id')
+    async findAvatar(@Param('personType') personType: 'user' | 'professional', @Param('id') id: number, @Res({ passthrough: true }) res: Response) {
+        return this.avatarService.findById(personType, id, res);
     }
 
-    @Get('professional/:id')
-    async findProfessionalAvatar(@Param('id') id: number, @Res({ passthrough: true }) res: Response) {
-        return this.avatarService.findById('professional', id, res);
-    }
-
-    @Post('user/:id')
+    @Post(':personType/:id')
     @UseInterceptors(FileInterceptor('file'))
-    updateUserAvatar(@Param('id') id: number, @UploadedFile() file: Express.Multer.File) {
-        return this.avatarService.addAvatar('user', id, file.buffer, file.originalname);
+    updateUserAvatar(@Param('personType') personType: 'user' | 'professional', @Param('id') id: number, @UploadedFile() file: Express.Multer.File) {
+        return this.avatarService.addAvatar(personType, id, file.buffer, file.originalname);
     }
 
-    @Post('professional/:id')
-    @UseInterceptors(FileInterceptor('file'))
-    updateProfessionalAvatar(@Param('id') id: number, @UploadedFile() file: Express.Multer.File) {
-        return this.avatarService.addAvatar('professional', id, file.buffer, file.originalname);
-    }
-
-    @Delete('user/:id')
+    @Delete(':personType/:id')
     @HttpCode(204)
-    deleteUserAvatar(@Param('id') id: number) {
-        return this.avatarService.deleteById('user', id);
-    }
-
-    @Delete('professional/:id')
-    @HttpCode(204)
-    deleteProfessionalAvatar(@Param('id') id: number) {
-        return this.avatarService.deleteById('professional', id);
+    deleteUserAvatar(@Param('personType') personType: 'user' | 'professional', @Param('id') id: number) {
+        return this.avatarService.deleteById(personType, id);
     }
 }
