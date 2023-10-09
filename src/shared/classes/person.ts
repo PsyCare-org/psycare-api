@@ -52,9 +52,7 @@ export class Person {
     birthDate: Date;
 
     @JoinColumn({ name: 'avatarId' })
-    @OneToOne(() => Avatar, {
-        nullable: true,
-    })
+    @OneToOne(() => Avatar, { nullable: true })
     avatar?: Avatar | null;
 
     @Column({ nullable: true })

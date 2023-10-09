@@ -3,7 +3,7 @@ import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
 import { Professional } from './entities/professional.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ArrayContains, FindOptionsWhere, Like, Repository } from 'typeorm';
+import { ArrayContains, FindOptionsWhere, In, Like, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import puppeteer from 'puppeteer';
 import { ConfigService } from '@nestjs/config';
@@ -118,24 +118,26 @@ export class ProfessionalService {
     }
 
     async findAll(findProfessionalDto: FindProfessionalDto) {
-        const { take, skip, type, languages, reason } = findProfessionalDto;
+        const { page, rowsPerPage, name, types, languages, reason } = findProfessionalDto;
 
-        const typeAndLangFilter: FindOptionsWhere<Professional> = {
-            ...(type && { type }),
+        const defaultFilter: FindOptionsWhere<Professional> = {
+            ...(name && { name: Like(`%${name}%`) }),
+            ...(types && { type: In(types) }),
             ...(languages && { languages: ArrayContains(languages) }),
         };
 
-        const likeColumns = ['abstract', 'expericences', 'specializations', 'description', 'historic'];
+        const filter = reason
+            ? ['abstract', 'expericences', 'specializations', 'description', 'historic'].map((column) => ({
+                  [column]: Like(`%${reason}%`),
+                  ...defaultFilter,
+              }))
+            : { ...defaultFilter };
 
         const [result, total] = await this.repo.findAndCount({
-            take: take,
-            skip: skip,
-            where: reason
-                ? likeColumns.map((column) => ({
-                      [column]: Like(`%${reason}%`),
-                      ...typeAndLangFilter,
-                  }))
-                : { ...typeAndLangFilter },
+            take: rowsPerPage,
+            skip: page * rowsPerPage,
+            where: filter,
+            relations: ['avatar'],
         });
 
         return {

@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Query } from '@nestjs/common';
 import { ProfessionalService } from './professional.service';
 import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
 import { Public } from 'src/shared/decorators/public.decorator';
 import { FindProfessionalDto } from './dto/find-professional.dto';
+import { Language } from 'src/shared/enums/language';
+import { ProfessionalType } from 'src/shared/enums/professional-type';
 
 @Controller('professional')
 export class ProfessionalController {
@@ -21,7 +23,14 @@ export class ProfessionalController {
     }
 
     @Get()
-    findAll(@Body() findProfessionalDto: FindProfessionalDto) {
+    findAll(@Query() findProfessionalDto: FindProfessionalDto) {
+        if (typeof findProfessionalDto.languages === 'string') {
+            findProfessionalDto.languages = (findProfessionalDto.languages as string).split(',') as Language[];
+        }
+        if (typeof findProfessionalDto.types === 'string') {
+            findProfessionalDto.types = (findProfessionalDto.types as string).split(',') as ProfessionalType[];
+        }
+
         return this.professionalService.findAll(findProfessionalDto);
     }
 

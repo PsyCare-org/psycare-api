@@ -34,43 +34,43 @@ export class Professional extends Person {
 
     @Column({
         type: 'varchar',
-        length: 255,
+        length: 1000,
     })
     abstract: string;
 
     @Column({
         type: 'varchar',
-        length: 255,
+        length: 1000,
         nullable: true,
     })
-    expericences: string;
+    expericences?: string;
 
     @Column({
         type: 'varchar',
-        length: 255,
+        length: 1000,
         nullable: true,
     })
-    specializations: string;
+    specializations?: string;
 
     @Column({
         type: 'varchar',
-        length: 255,
+        length: 1000,
         nullable: true,
     })
-    description: string;
+    description?: string;
 
     @Column({
         type: 'varchar',
-        length: 255,
+        length: 1000,
         nullable: true,
     })
-    historic: string;
+    historic?: string;
 
     @Column({
         type: 'float',
         nullable: true,
     })
-    rating: number;
+    rating?: number;
 
     constructor(
         email: string,

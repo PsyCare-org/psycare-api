@@ -1,23 +1,32 @@
-import { IsArray, IsEnum, IsNumber, IsString, ValidateIf } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsArray, IsNumber, IsString, ValidateIf } from 'class-validator';
 import { Language } from 'src/shared/enums/language';
 import { ProfessionalType } from 'src/shared/enums/professional-type';
 
 export class FindProfessionalDto {
+    @Transform(({ value }) => parseInt(value))
     @IsNumber()
-    take: number = 10;
+    rowsPerPage: number = 10;
 
+    @Transform(({ value }) => parseInt(value))
     @IsNumber()
-    skip: number = 0;
-
-    @IsEnum(ProfessionalType)
-    @ValidateIf((_, value) => value !== null && value !== undefined)
-    type: ProfessionalType;
-
-    @IsArray()
-    @ValidateIf((_, value) => value !== null && value !== undefined)
-    languages: Language[];
+    page: number = 1;
 
     @IsString()
     @ValidateIf((_, value) => value !== null && value !== undefined)
-    reason: string;
+    name?: string | null;
+
+    @Transform(({ value }) => (value as string).split(','))
+    @IsArray()
+    @ValidateIf((_, value) => value !== null && value !== undefined)
+    types?: ProfessionalType[] | null;
+
+    @Transform(({ value }) => (value as string).split(','))
+    @IsArray()
+    @ValidateIf((_, value) => value !== null && value !== undefined)
+    languages?: Language[] | null;
+
+    @IsString()
+    @ValidateIf((_, value) => value !== null && value !== undefined)
+    reason?: string | null;
 }
