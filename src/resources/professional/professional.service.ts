@@ -114,7 +114,7 @@ export class ProfessionalService {
     }
 
     findOne(id: number) {
-        return this.repo.findOne({ where: { id } });
+        return this.repo.findOne({ where: { id }, relations: ['avatar'] });
     }
 
     async findAll(findProfessionalDto: FindProfessionalDto) {
