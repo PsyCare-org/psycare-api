@@ -15,6 +15,7 @@ import { AuthStrategy } from './strategies/auth.strategy';
         ConfigModule,
         JwtModule.registerAsync({
             imports: [ConfigModule],
+            global: true,
             useFactory: (config: ConfigService) => config.get('auth'),
             inject: [ConfigService],
         }),
