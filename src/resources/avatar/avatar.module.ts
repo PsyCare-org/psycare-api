@@ -2,9 +2,7 @@ import { Module } from '@nestjs/common';
 import { AvatarService } from './avatar.service';
 import { AvatarController } from './avatar.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Avatar } from './entities/avatar.entity';
-import { User } from '../user/entities/user.entity';
-import { Professional } from '../professional/entities/professional.entity';
+import { Avatar, Professional, User } from '@psycare/entities';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Avatar, User, Professional])],

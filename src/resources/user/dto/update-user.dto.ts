@@ -1,3 +1,3 @@
-import { UpdatePersonDto } from 'src/shared/dtos/update-person.dto';
+import { UpdatePersonDto } from '@psycare/dtos';
 
 export class UpdateUserDto extends UpdatePersonDto {}

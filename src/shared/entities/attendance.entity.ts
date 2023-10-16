@@ -1,8 +1,8 @@
-import { AttendanceStatus } from 'src/shared/enums/attendance-stats';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { CalendarHour } from 'src/shared/types';
-import { Professional } from 'src/resources/professional/entities/professional.entity';
-import { User } from 'src/resources/user/entities/user.entity';
+import { AttendanceStatus } from '@psycare/enums';
+import { CalendarHour } from '@psycare/types';
+import { Professional } from './professional.entity';
+import { User } from './user.entity';
 
 @Entity('attendance')
 export class Attendance {

@@ -1,17 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
-import { Professional } from './entities/professional.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArrayContains, FindOptionsWhere, In, Like, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import puppeteer from 'puppeteer';
 import { ConfigService } from '@nestjs/config';
-import { ValidateProfessionalException } from 'src/shared/exceptions/validate-professional';
 import { FindProfessionalDto } from './dto/find-professional.dto';
-import { UpdatePasswordDto } from 'src/shared/dtos/update-password.dto';
-import { PersonNotFoundException } from 'src/shared/exceptions/person-not-found';
-import { InvalidCredentialsException } from 'src/shared/exceptions/invalid-credentials';
+import { Professional } from '@psycare/entities';
+import { InvalidCredentialsException, PersonNotFoundException, ValidateProfessionalException } from '@psycare/exceptions';
+import { UpdatePasswordDto } from '@psycare/dtos';
 
 @Injectable()
 export class ProfessionalService {

@@ -1,7 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsArray, IsNumber, IsString, ValidateIf } from 'class-validator';
-import { Language } from 'src/shared/enums/language';
-import { ProfessionalType } from 'src/shared/enums/professional-type';
+import { Language, ProfessionalType } from '@psycare/enums';
 
 export class FindProfessionalDto {
     @Transform(({ value }) => parseInt(value))

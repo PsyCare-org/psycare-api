@@ -1,12 +1,10 @@
 import { Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user/entities/user.entity';
-import { Professional } from '../professional/entities/professional.entity';
 import { Repository } from 'typeorm';
-import { Avatar } from './entities/avatar.entity';
-import { PersonNotFoundException } from 'src/shared/exceptions/person-not-found';
 import { Response } from 'express';
 import { Readable } from 'stream';
+import { PersonNotFoundException } from '@psycare/exceptions';
+import { Avatar, Professional, User } from '@psycare/entities';
 
 @Injectable()
 export class AvatarService {

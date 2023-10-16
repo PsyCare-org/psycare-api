@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Gender } from '../enums/gender';
-import { Avatar } from 'src/resources/avatar/entities/avatar.entity';
+import { Avatar } from '@psycare/entities';
 
 export class Person {
     @PrimaryGeneratedColumn()

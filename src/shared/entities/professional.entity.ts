@@ -1,9 +1,7 @@
-import { Attendance } from 'src/resources/attendance/entities/attendance.entity';
-import { Person } from 'src/shared/classes/person';
-import { Gender } from 'src/shared/enums/gender';
-import { Language } from 'src/shared/enums/language';
-import { ProfessionalType } from 'src/shared/enums/professional-type';
+import { Person } from '@psycare/classes';
+import { Gender, Language, ProfessionalType } from '@psycare/enums';
 import { Column, Entity, OneToMany } from 'typeorm';
+import { Attendance } from './attendance.entity';
 
 @Entity('professional')
 export class Professional extends Person {

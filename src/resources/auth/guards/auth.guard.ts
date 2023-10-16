@@ -4,7 +4,7 @@ import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard as PassportGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { IS_PUBLIC_KEY } from 'src/shared/constants/is-public-key';
+import { IS_PUBLIC_KEY } from '@psycare/constants';
 
 @Injectable()
 export class AuthGuard extends PassportGuard('jwt') {

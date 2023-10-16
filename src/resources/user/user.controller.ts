@@ -2,8 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@ne
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Public } from 'src/shared/decorators/public.decorator';
-import { UpdatePasswordDto } from 'src/shared/dtos/update-password.dto';
+import { Public } from '@psycare/decorators';
+import { UpdatePasswordDto } from '@psycare/dtos';
 
 @Controller('user')
 export class UserController {

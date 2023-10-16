@@ -2,10 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Query } fr
 import { ProfessionalService } from './professional.service';
 import { CreateProfessionalDto } from './dto/create-professional.dto';
 import { UpdateProfessionalDto } from './dto/update-professional.dto';
-import { Public } from 'src/shared/decorators/public.decorator';
 import { FindProfessionalDto } from './dto/find-professional.dto';
-import { Language } from 'src/shared/enums/language';
-import { ProfessionalType } from 'src/shared/enums/professional-type';
+import { Public } from '@psycare/decorators';
+import { Language, ProfessionalType } from '@psycare/enums';
 
 @Controller('professional')
 export class ProfessionalController {

@@ -1,6 +1,6 @@
-import { Attendance } from 'src/resources/attendance/entities/attendance.entity';
 import { Person } from 'src/shared/classes/person';
 import { Entity, OneToMany } from 'typeorm';
+import { Attendance } from './attendance.entity';
 
 @Entity('user')
 export class User extends Person {

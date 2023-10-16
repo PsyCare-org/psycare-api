@@ -1,3 +1,3 @@
-import { CreatePersonDto } from 'src/shared/dtos/create-person.dto';
+import { CreatePersonDto } from '@psycare/dtos';
 
 export class CreateUserDto extends CreatePersonDto {}

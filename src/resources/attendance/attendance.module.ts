@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { AttendanceController } from './attendance.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Attendance } from './entities/attendance.entity';
+import { Attendance } from '@psycare/entities';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Attendance])],

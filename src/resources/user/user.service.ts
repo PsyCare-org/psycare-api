@@ -1,13 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { UpdatePasswordDto } from 'src/shared/dtos/update-password.dto';
-import { PersonNotFoundException } from 'src/shared/exceptions/person-not-found';
-import { InvalidCredentialsException } from 'src/shared/exceptions/invalid-credentials';
+import { User } from '@psycare/entities';
+import { InvalidCredentialsException, PersonNotFoundException } from '@psycare/exceptions';
+import { UpdatePasswordDto } from '@psycare/dtos';
 
 @Injectable()
 export class UserService {

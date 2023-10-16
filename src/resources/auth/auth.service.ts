@@ -1,13 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
-import { Professional } from '../professional/entities/professional.entity';
 import { SignInDto } from './dto/sign-in.dto';
 import * as bcrypt from 'bcrypt';
-import { InvalidCredentialsException } from 'src/shared/exceptions/invalid-credentials';
 import { JwtService } from '@nestjs/jwt';
-import { PersonNotFoundException } from 'src/shared/exceptions/person-not-found';
+import { Professional, User } from '@psycare/entities';
+import { InvalidCredentialsException, PersonNotFoundException } from '@psycare/exceptions';
 
 @Injectable()
 export class AuthService {

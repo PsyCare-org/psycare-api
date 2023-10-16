@@ -1,7 +1,6 @@
 import { IsArray, IsEnum, IsNotEmpty, IsString, ValidateIf } from 'class-validator';
-import { CreatePersonDto } from 'src/shared/dtos/create-person.dto';
-import { Language } from 'src/shared/enums/language';
-import { ProfessionalType } from 'src/shared/enums/professional-type';
+import { CreatePersonDto } from '@psycare/dtos';
+import { Language, ProfessionalType } from '@psycare/enums';
 
 export class CreateProfessionalDto extends CreatePersonDto {
     @IsString()
