@@ -1,10 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Attendance } from '@psycare/entities';
 import { Repository } from 'typeorm';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { AttendanceStatus } from '@psycare/enums';
-import { PersonNotFoundException, ResourceNotFoundException } from '@psycare/exceptions';
+import { ResourceNotFoundException } from '@psycare/exceptions';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
 
 @Injectable()
@@ -30,26 +30,7 @@ export class AttendanceService {
             createAttendanceDto.userId,
         );
 
-        return this.repo.save(attendance).catch((err) => {
-            if (err.detail.includes('is not present in table')) {
-                throw new PersonNotFoundException();
-            }
-
-            let errorMsg: string;
-
-            switch (true) {
-                case err.message.includes('professional_user_index'):
-                    errorMsg = 'Já existe um acompanhamento entre as pessoas solicitadas';
-                    break;
-                case err.message.includes('calendar_hour_index'):
-                    errorMsg = 'Horário já está ocupado';
-                    break;
-                default:
-                    errorMsg = err.message;
-            }
-
-            throw new BadRequestException(errorMsg);
-        });
+        return this.repo.save(attendance);
     }
 
     async update(id: number, updateAttendanceDto: UpdateAttendanceDto) {
@@ -61,22 +42,7 @@ export class AttendanceService {
 
         const updatedAttendance = Object.assign(oldAttendance, updateAttendanceDto);
 
-        return this.repo.save(updatedAttendance).catch((err) => {
-            let errorMsg: string;
-
-            switch (true) {
-                case err.message.includes('professional_user_index'):
-                    errorMsg = 'Já existe um acompanhamento entre as pessoas solicitadas';
-                    break;
-                case err.message.includes('calendar_hour_index'):
-                    errorMsg = 'Horário ocupado';
-                    break;
-                default:
-                    errorMsg = err.message;
-            }
-
-            throw new BadRequestException(errorMsg);
-        });
+        return this.repo.save(updatedAttendance);
     }
 
     async remove(id: number) {

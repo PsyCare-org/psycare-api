@@ -107,15 +107,10 @@ export class ProfessionalService {
 
         const isProfessionalValid = await this.validateProfessional(professional);
         if (!isProfessionalValid) {
-            throw new BadRequestException('Invalid Professional credentials (CPF, CRP and Name)');
+            throw new BadRequestException('Credênciais inválidas(CPF, CRP e Nome)');
         }
 
-        return this.repo.save(professional).catch((err) => {
-            if (/(email)[\s\S]+(already exists)/.test(err.detail)) {
-                throw new BadRequestException('Account with this email already exists.');
-            }
-            throw new BadRequestException(err.message);
-        });
+        return this.repo.save(professional);
     }
 
     findOne(id: number) {

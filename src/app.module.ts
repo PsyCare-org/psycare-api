@@ -5,8 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config';
 import { ResourcesModule } from './resources/resources.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthGuard } from '@psycare/guards';
+import { ErrorInterceptor } from '@psycare/interceptors';
 
 @Module({
     imports: [
@@ -21,6 +22,10 @@ import { AuthGuard } from '@psycare/guards';
         ResourcesModule,
     ],
     controllers: [AppController],
-    providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }],
+    providers: [
+        AppService,
+        { provide: APP_GUARD, useClass: AuthGuard },
+        { provide: APP_INTERCEPTOR, useClass: ErrorInterceptor },
+    ],
 })
 export class AppModule {}

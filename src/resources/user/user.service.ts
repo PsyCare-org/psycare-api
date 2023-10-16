@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,12 +23,7 @@ export class UserService {
             new Date(createUserDto.birthDate),
         );
 
-        return this.repo.save(user).catch((err) => {
-            if (/(email)[\s\S]+(already exists)/.test(err.detail)) {
-                throw new BadRequestException('Account with this email already exists.');
-            }
-            throw new BadRequestException(err.message);
-        });
+        return this.repo.save(user);
     }
 
     findOne(id: number) {
