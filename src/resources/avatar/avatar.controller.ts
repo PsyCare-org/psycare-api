@@ -1,19 +1,14 @@
-import { Controller, Delete, Get, HttpCode, Param, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, Delete, Get, HttpCode, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { AvatarService } from './avatar.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Response } from 'express';
 
 @Controller('avatar')
 export class AvatarController {
     constructor(private readonly avatarService: AvatarService) {}
 
     @Get(':personType/:id')
-    async findAvatar(
-        @Param('personType') personType: 'user' | 'professional',
-        @Param('id') id: number,
-        @Res({ passthrough: true }) res: Response,
-    ) {
-        return this.avatarService.findById(personType, id, res);
+    async findAvatar(@Param('personType') personType: 'user' | 'professional', @Param('id') id: number) {
+        return this.avatarService.findById(personType, id);
     }
 
     @Post(':personType/:id')

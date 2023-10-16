@@ -12,7 +12,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 @Injectable()
 export class ErrorInterceptor implements NestInterceptor {
     private errorHandler(error: any) {
-        if (error.detail.includes('is not present in table')) {
+        if (error.detail?.includes('is not present in table')) {
             return new ResourceNotFoundException();
         }
 
@@ -35,7 +35,7 @@ export class ErrorInterceptor implements NestInterceptor {
         return next.handle().pipe(
             catchError((err) => {
                 if (err instanceof HttpException) return throwError(() => err);
-
+                console.log(err);
                 const error = this.errorHandler(err);
                 return throwError(() => error);
             }),

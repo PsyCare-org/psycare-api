@@ -1,10 +1,9 @@
-import { Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Response } from 'express';
-import { Readable } from 'stream';
-import { PersonNotFoundException } from '@psycare/exceptions';
+import { PersonNotFoundException, ResourceNotFoundException } from '@psycare/exceptions';
 import { Avatar, Professional, User } from '@psycare/entities';
+import { bufferToImage } from '@psycare/helpers';
 
 @Injectable()
 export class AvatarService {
@@ -25,7 +24,7 @@ export class AvatarService {
     private async getAvatarById(id: number) {
         const file = await this.avatarRepo.findOne({ where: { id } });
         if (!file) {
-            throw new NotFoundException('Avatar não encontrado no sistema');
+            throw new ResourceNotFoundException();
         }
         return file;
     }
@@ -46,7 +45,7 @@ export class AvatarService {
         }
     }
 
-    async findById(type: 'user' | 'professional', id: number, res: Response) {
+    async findById(type: 'user' | 'professional', id: number) {
         const fileId = await this.getFileId(type, id);
 
         if (!fileId) {
@@ -55,14 +54,7 @@ export class AvatarService {
 
         const avatar = await this.getAvatarById(fileId);
 
-        const stream = Readable.from(avatar.data);
-
-        res.set({
-            'Content-Disposition': `inline; filename="${avatar.name}"`,
-            'Content-Type': 'image',
-        });
-
-        return new StreamableFile(stream);
+        return bufferToImage(avatar.data);
     }
 
     async addAvatar(type: 'user' | 'professional', id: number, imageBuffer: Buffer, name: string) {

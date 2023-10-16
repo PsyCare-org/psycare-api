@@ -24,7 +24,6 @@ export class AuthGuard extends PassportGuard('jwt') {
         ]);
 
         if (isPublic) {
-            console.log('cai aqui');
             return true;
         }
 

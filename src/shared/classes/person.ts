@@ -53,7 +53,7 @@ export class Person {
 
     @JoinColumn({ name: 'avatarId' })
     @OneToOne(() => Avatar, { nullable: true })
-    avatar?: Avatar | null;
+    avatar?: Avatar | string | null;
 
     @Column({ nullable: true })
     avatarId?: number | null;

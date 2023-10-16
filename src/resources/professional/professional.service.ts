@@ -7,13 +7,14 @@ import * as bcrypt from 'bcrypt';
 import puppeteer from 'puppeteer';
 import { ConfigService } from '@nestjs/config';
 import { FindProfessionalDto } from './dto/find-professional.dto';
-import { Professional } from '@psycare/entities';
+import { Avatar, Professional } from '@psycare/entities';
 import {
     InvalidCredentialsException,
     PersonNotFoundException,
     ValidateProfessionalException,
 } from '@psycare/exceptions';
 import { UpdatePasswordDto } from '@psycare/dtos';
+import { bufferToImage } from '@psycare/helpers';
 
 @Injectable()
 export class ProfessionalService {
@@ -113,8 +114,20 @@ export class ProfessionalService {
         return this.repo.save(professional);
     }
 
-    findOne(id: number) {
-        return this.repo.findOne({ where: { id }, relations: ['avatar'] });
+    async findOne(id: number) {
+        const professional = await this.repo.findOne({
+            where: { id },
+            relations: ['avatar'],
+        });
+
+        if (!professional) {
+            throw new PersonNotFoundException();
+        }
+
+        if (professional.avatar instanceof Avatar) {
+            professional.avatar = bufferToImage(professional.avatar.data);
+        }
+        return professional;
     }
 
     async findAll(findProfessionalDto: FindProfessionalDto) {
@@ -142,7 +155,12 @@ export class ProfessionalService {
 
         return {
             total,
-            data: result,
+            data: result.map((item) => {
+                if (item.avatar instanceof Avatar) {
+                    item.avatar = bufferToImage(item.avatar.data);
+                }
+                return item;
+            }),
         };
     }
 
