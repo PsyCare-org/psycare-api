@@ -1,10 +1,13 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { AttendanceStatus } from '@psycare/enums';
-import { CalendarHour } from '@psycare/types';
+import { CalendarHour } from '@psycare/enums';
 import { Professional } from './professional.entity';
 import { User } from './user.entity';
 
 @Entity('attendance')
+@Unique('professional_user_index', ['professionalId', 'userId'])
+@Unique('professional_calendar_hour_index', ['professionalId', 'calendarHour'])
+@Unique('user_calendar_hour_index', ['userId', 'calendarHour'])
 export class Attendance {
     @PrimaryGeneratedColumn()
     id: number;
@@ -16,8 +19,8 @@ export class Attendance {
     status: AttendanceStatus;
 
     @Column({
-        type: 'varchar',
-        length: '6',
+        type: 'enum',
+        enum: CalendarHour,
     })
     calendarHour: CalendarHour;
 
@@ -32,4 +35,11 @@ export class Attendance {
 
     @Column()
     userId: number;
+
+    constructor(status: AttendanceStatus, calendarHour: CalendarHour, professionalId: number, userId: number) {
+        this.status = status;
+        this.calendarHour = calendarHour;
+        this.professionalId = professionalId;
+        this.userId = userId;
+    }
 }
