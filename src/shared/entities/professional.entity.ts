@@ -1,5 +1,5 @@
 import { Person } from '@psycare/classes';
-import { Gender, Language, ProfessionalType } from '@psycare/enums';
+import { CalendarHour, Gender, Language, ProfessionalType } from '@psycare/enums';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Attendance } from './attendance.entity';
 
@@ -73,6 +73,8 @@ export class Professional extends Person {
 
     @OneToMany(() => Attendance, (attendance) => attendance.professional)
     attendances: Attendance[];
+
+    occupiedHours?: Pick<Attendance, 'calendarHour' | 'userId'>[];
 
     constructor(
         email: string,

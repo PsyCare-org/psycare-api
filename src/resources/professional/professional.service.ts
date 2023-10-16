@@ -117,7 +117,7 @@ export class ProfessionalService {
     async findOne(id: number) {
         const professional = await this.repo.findOne({
             where: { id },
-            relations: ['avatar'],
+            relations: ['avatar', 'attendances'],
         });
 
         if (!professional) {
@@ -127,6 +127,14 @@ export class ProfessionalService {
         if (professional.avatar instanceof Avatar) {
             professional.avatar = bufferToImage(professional.avatar.data);
         }
+
+        if (professional.attendances) {
+            professional.occupiedHours = professional.attendances.map((el) => ({
+                calendarHour: el.calendarHour,
+                userId: el.userId,
+            }));
+        }
+
         return professional;
     }
 
