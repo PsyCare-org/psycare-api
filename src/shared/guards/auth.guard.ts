@@ -18,7 +18,10 @@ export class AuthGuard extends PassportGuard('jwt') {
     }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [context.getHandler(), context.getClass()]);
+        const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+            context.getHandler(),
+            context.getClass(),
+        ]);
 
         if (isPublic) {
             console.log('cai aqui');

@@ -8,7 +8,11 @@ import puppeteer from 'puppeteer';
 import { ConfigService } from '@nestjs/config';
 import { FindProfessionalDto } from './dto/find-professional.dto';
 import { Professional } from '@psycare/entities';
-import { InvalidCredentialsException, PersonNotFoundException, ValidateProfessionalException } from '@psycare/exceptions';
+import {
+    InvalidCredentialsException,
+    PersonNotFoundException,
+    ValidateProfessionalException,
+} from '@psycare/exceptions';
 import { UpdatePasswordDto } from '@psycare/dtos';
 
 @Injectable()
@@ -56,7 +60,10 @@ export class ProfessionalService {
                         if (Array.isArray(res)) {
                             result =
                                 res.findIndex((el) => {
-                                    return el.Nome.toLowerCase().includes(professional.name.toLowerCase()) && el.situacao === 'ATIVO';
+                                    return (
+                                        el.Nome.toLowerCase().includes(professional.name.toLowerCase()) &&
+                                        el.situacao === 'ATIVO'
+                                    );
                                 }) !== -1;
                             attempts = 3;
                         }
@@ -166,7 +173,10 @@ export class ProfessionalService {
             throw new PersonNotFoundException();
         }
 
-        const isCurrentPasswordValid = await bcrypt.compare(updatePasswordDto.currentPassword, oldProfessional.password);
+        const isCurrentPasswordValid = await bcrypt.compare(
+            updatePasswordDto.currentPassword,
+            oldProfessional.password,
+        );
         if (!isCurrentPasswordValid) {
             throw new InvalidCredentialsException();
         }

@@ -8,13 +8,21 @@ export class AvatarController {
     constructor(private readonly avatarService: AvatarService) {}
 
     @Get(':personType/:id')
-    async findAvatar(@Param('personType') personType: 'user' | 'professional', @Param('id') id: number, @Res({ passthrough: true }) res: Response) {
+    async findAvatar(
+        @Param('personType') personType: 'user' | 'professional',
+        @Param('id') id: number,
+        @Res({ passthrough: true }) res: Response,
+    ) {
         return this.avatarService.findById(personType, id, res);
     }
 
     @Post(':personType/:id')
     @UseInterceptors(FileInterceptor('file'))
-    updateUserAvatar(@Param('personType') personType: 'user' | 'professional', @Param('id') id: number, @UploadedFile() file: Express.Multer.File) {
+    updateUserAvatar(
+        @Param('personType') personType: 'user' | 'professional',
+        @Param('id') id: number,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
         return this.avatarService.addAvatar(personType, id, file.buffer, file.originalname);
     }
 
