@@ -1,8 +1,9 @@
+import { Attendance } from 'src/resources/attendance/entities/attendance.entity';
 import { Person } from 'src/shared/classes/person';
 import { Gender } from 'src/shared/enums/gender';
 import { Language } from 'src/shared/enums/language';
 import { ProfessionalType } from 'src/shared/enums/professional-type';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('professional')
 export class Professional extends Person {
@@ -71,6 +72,9 @@ export class Professional extends Person {
         nullable: true,
     })
     rating?: number;
+
+    @OneToMany(() => Attendance, (attendance) => attendance.professional)
+    attendances: Attendance[];
 
     constructor(
         email: string,
