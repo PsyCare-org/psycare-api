@@ -1,8 +1,9 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { AttendanceStatus } from '@psycare/enums';
 import { CalendarHour } from '@psycare/enums';
 import { Professional } from './professional.entity';
 import { User } from './user.entity';
+import { Rating } from './rating.entity';
 
 @Entity('attendance')
 @Unique('professional_user_index', ['professionalId', 'userId'])
@@ -35,6 +36,9 @@ export class Attendance {
 
     @Column()
     userId: number;
+
+    @OneToOne(() => Rating, (rating) => rating.attendance, { nullable: true })
+    rating?: Rating;
 
     constructor(status: AttendanceStatus, calendarHour: CalendarHour, professionalId: number, userId: number) {
         this.status = status;

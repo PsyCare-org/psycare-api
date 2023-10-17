@@ -14,7 +14,7 @@ export class AttendanceService {
     async findOne(id: number) {
         const attendance = await this.repo.findOne({
             where: { id },
-            relations: ['professional', 'user'],
+            relations: ['professional', 'user', 'rating'],
         });
 
         if (!attendance) throw new NotFoundException();

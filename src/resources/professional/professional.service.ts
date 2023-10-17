@@ -117,7 +117,12 @@ export class ProfessionalService {
     async findOne(id: number) {
         const professional = await this.repo.findOne({
             where: { id },
-            relations: ['avatar', 'attendances'],
+            relations: {
+                avatar: true,
+                attendances: {
+                    rating: true,
+                },
+            },
         });
 
         if (!professional) {
@@ -133,6 +138,14 @@ export class ProfessionalService {
                 calendarHour: el.calendarHour,
                 userId: el.userId,
             }));
+
+            const ratings = professional.attendances.filter((el) => el.rating).map((el) => el.rating);
+
+            if (ratings.length > 0) {
+                professional.rating = ratings.reduce((acc, cur) => acc + cur.value, 0) / ratings.length;
+                professional.ratings = ratings;
+                professional.ratingCount = ratings.length;
+            }
         }
 
         return professional;
@@ -158,7 +171,13 @@ export class ProfessionalService {
             take: rowsPerPage,
             skip: page * rowsPerPage,
             where: filter,
-            relations: ['avatar'],
+            order: { id: 'ASC' },
+            relations: {
+                avatar: true,
+                attendances: {
+                    rating: true,
+                },
+            },
         });
 
         return {
@@ -167,6 +186,16 @@ export class ProfessionalService {
                 if (item.avatar instanceof Avatar) {
                     item.avatar = bufferToImage(item.avatar.data);
                 }
+
+                if (item.attendances) {
+                    const ratings = item.attendances.filter((el) => el.rating).map((el) => el.rating);
+
+                    if (ratings.length > 0) {
+                        item.rating = ratings.reduce((acc, cur) => acc + cur.value, 0) / ratings.length;
+                        item.ratingCount = ratings.length;
+                    }
+                }
+
                 return item;
             }),
         };

@@ -1,7 +1,8 @@
 import { Person } from '@psycare/classes';
-import { CalendarHour, Gender, Language, ProfessionalType } from '@psycare/enums';
+import { Gender, Language, ProfessionalType } from '@psycare/enums';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Attendance } from './attendance.entity';
+import { Rating } from './rating.entity';
 
 @Entity('professional')
 export class Professional extends Person {
@@ -65,14 +66,12 @@ export class Professional extends Person {
     })
     historic?: string;
 
-    @Column({
-        type: 'float',
-        nullable: true,
-    })
-    rating?: number;
-
     @OneToMany(() => Attendance, (attendance) => attendance.professional)
     attendances: Attendance[];
+
+    rating?: number;
+    ratings?: Rating[];
+    ratingCount?: number;
 
     occupiedHours?: Pick<Attendance, 'calendarHour' | 'userId'>[];
 
