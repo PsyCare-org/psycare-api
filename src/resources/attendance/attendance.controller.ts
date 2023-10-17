@@ -12,6 +12,11 @@ export class AttendanceController {
         return this.attendanceService.findOne(+id);
     }
 
+    @Get(':personType/:id')
+    findAll(@Param('personType') personType: 'user' | 'professional', @Param('id') id: number) {
+        return this.attendanceService.findAll(personType, +id);
+    }
+
     @Post()
     create(@Body() createAttendanceDto: CreateAttendanceDto) {
         return this.attendanceService.create(createAttendanceDto);

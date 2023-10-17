@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Attendance } from '@psycare/entities';
+import { Attendance, Avatar } from '@psycare/entities';
 import { Repository } from 'typeorm';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { AttendanceStatus } from '@psycare/enums';
 import { ResourceNotFoundException } from '@psycare/exceptions';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import { SplitedResult } from './types/splitted-result';
+import { bufferToImage } from '@psycare/helpers';
 
 @Injectable()
 export class AttendanceService {
@@ -20,6 +22,38 @@ export class AttendanceService {
         if (!attendance) throw new NotFoundException();
 
         return attendance;
+    }
+
+    async findAll(personType: 'user' | 'professional', id: number) {
+        const [result, total] = await this.repo.findAndCount({
+            where: {
+                ...(personType === 'user' && { userId: id }),
+                ...(personType === 'professional' && { professionalId: id }),
+            },
+            relations: {
+                user: true,
+                professional: {
+                    avatar: true,
+                },
+            },
+        });
+
+        return {
+            data: result.reduce(
+                (acc: SplitedResult, cur) => {
+                    if (cur.professional.avatar) {
+                        cur.professional.avatar = bufferToImage((cur.professional.avatar as Avatar).data);
+                    }
+
+                    if (cur.status === AttendanceStatus.active) acc.active.push(cur);
+                    if (cur.status === AttendanceStatus.closed) acc.closed.push(cur);
+                    if (cur.status === AttendanceStatus.pending) acc.pending.push(cur);
+                    return acc;
+                },
+                { active: [], closed: [], pending: [] } as SplitedResult,
+            ),
+            total,
+        };
     }
 
     create(createAttendanceDto: CreateAttendanceDto) {

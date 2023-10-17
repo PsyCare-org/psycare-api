@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { AttendanceStatus } from '@psycare/enums';
 import { CalendarHour } from '@psycare/enums';
 import { Professional } from './professional.entity';
@@ -39,6 +39,9 @@ export class Attendance {
 
     @OneToOne(() => Rating, (rating) => rating.attendance, { nullable: true })
     rating?: Rating;
+
+    @CreateDateColumn()
+    createdAt: Date;
 
     constructor(status: AttendanceStatus, calendarHour: CalendarHour, professionalId: number, userId: number) {
         this.status = status;
