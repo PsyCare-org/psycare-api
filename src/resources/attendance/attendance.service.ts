@@ -31,7 +31,9 @@ export class AttendanceService {
                 ...(personType === 'professional' && { professionalId: id }),
             },
             relations: {
-                user: true,
+                user: {
+                    avatar: true,
+                },
                 professional: {
                     avatar: true,
                 },
@@ -43,6 +45,10 @@ export class AttendanceService {
                 (acc: SplitedResult, cur) => {
                     if (cur.professional.avatar) {
                         cur.professional.avatar = bufferToImage((cur.professional.avatar as Avatar).data);
+                    }
+
+                    if (cur.user.avatar) {
+                        cur.user.avatar = bufferToImage((cur.user.avatar as Avatar).data);
                     }
 
                     if (cur.status === AttendanceStatus.active) acc.active.push(cur);
