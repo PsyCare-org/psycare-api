@@ -7,6 +7,7 @@ import { AttendanceModule } from './attendance/attendance.module';
 import { RatingModule } from './rating/rating.module';
 import { MedicalRecordModule } from './medical-record/medical-record.module';
 import { FollowUpModule } from './follow-up/follow-up.module';
+import { MeetingModule } from './meeting/meeting.module';
 
 const resources = [
     AttendanceModule,
@@ -17,6 +18,7 @@ const resources = [
     RatingModule,
     MedicalRecordModule,
     FollowUpModule,
+    MeetingModule,
 ];
 
 @Module({
