@@ -26,7 +26,9 @@ export class AttendanceService {
                 rating: true,
                 medicalRecord: true,
                 followUps: true,
-                meetings: true,
+                meetings: {
+                    note: true,
+                },
             },
         });
 
