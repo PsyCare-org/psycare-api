@@ -25,6 +25,7 @@ export class AttendanceService {
                 },
                 rating: true,
                 medicalRecord: true,
+                followUps: true,
             },
         });
 

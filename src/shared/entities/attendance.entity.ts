@@ -1,10 +1,20 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    OneToOne,
+    PrimaryGeneratedColumn,
+    Unique,
+} from 'typeorm';
 import { AttendanceStatus } from '@psycare/enums';
 import { CalendarHour } from '@psycare/enums';
 import { Professional } from './professional.entity';
 import { User } from './user.entity';
 import { Rating } from './rating.entity';
 import { MedicalRecord } from './medical-record.entity';
+import { FollowUp } from './follow-up.entity';
 
 @Entity('attendance')
 @Unique('professional_user_index', ['professionalId', 'userId'])
@@ -43,6 +53,9 @@ export class Attendance {
 
     @OneToOne(() => MedicalRecord, (medicalRecord) => medicalRecord.attendance, { nullable: true })
     medicalRecord?: MedicalRecord;
+
+    @OneToMany(() => FollowUp, (followUp) => followUp.attendance)
+    followUps?: FollowUp[];
 
     @CreateDateColumn()
     createdAt: Date;

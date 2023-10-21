@@ -22,18 +22,21 @@ export class MedicalRecord {
     @Column({
         type: 'varchar',
         length: 1000,
+        nullable: true,
     })
     pastHistory?: string;
 
     @Column({
         type: 'varchar',
         length: 1000,
+        nullable: true,
     })
     intervationPlan?: string;
 
     @Column({
         type: 'varchar',
         length: 1000,
+        nullable: true,
     })
     evolutions?: string;
 
