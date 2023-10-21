@@ -4,6 +4,7 @@ import { CalendarHour } from '@psycare/enums';
 import { Professional } from './professional.entity';
 import { User } from './user.entity';
 import { Rating } from './rating.entity';
+import { MedicalRecord } from './medical-record.entity';
 
 @Entity('attendance')
 @Unique('professional_user_index', ['professionalId', 'userId'])
@@ -39,6 +40,9 @@ export class Attendance {
 
     @OneToOne(() => Rating, (rating) => rating.attendance, { nullable: true })
     rating?: Rating;
+
+    @OneToOne(() => MedicalRecord, (medicalRecord) => medicalRecord.attendance, { nullable: true })
+    medicalRecord?: MedicalRecord;
 
     @CreateDateColumn()
     createdAt: Date;
