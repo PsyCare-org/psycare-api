@@ -1,8 +1,10 @@
 import { Controller, Delete, Get, HttpCode, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { AvatarService } from './avatar.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('avatar')
+@ApiTags('avatar')
 export class AvatarController {
     constructor(private readonly avatarService: AvatarService) {}
 

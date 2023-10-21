@@ -4,8 +4,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from '@psycare/decorators';
 import { UpdatePasswordDto } from '@psycare/dtos';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
+@ApiTags('user')
 export class UserController {
     constructor(private readonly userService: UserService) {}
 

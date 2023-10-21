@@ -2,8 +2,10 @@ import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@ne
 import { AttendanceService } from './attendance.service';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('attendance')
+@ApiTags('attendance')
 export class AttendanceController {
     constructor(private readonly attendanceService: AttendanceService) {}
 

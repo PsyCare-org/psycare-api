@@ -5,8 +5,17 @@ import { AuthModule } from './auth/auth.module';
 import { AvatarModule } from './avatar/avatar.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { RatingModule } from './rating/rating.module';
+import { MedicalRecordModule } from './medical-record/medical-record.module';
 
-const resources = [AttendanceModule, AuthModule, AvatarModule, UserModule, ProfessionalModule, RatingModule];
+const resources = [
+    AttendanceModule,
+    AuthModule,
+    AvatarModule,
+    UserModule,
+    ProfessionalModule,
+    RatingModule,
+    MedicalRecordModule,
+];
 
 @Module({
     imports: resources,

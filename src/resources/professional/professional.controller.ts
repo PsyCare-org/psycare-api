@@ -5,8 +5,10 @@ import { UpdateProfessionalDto } from './dto/update-professional.dto';
 import { FindProfessionalDto } from './dto/find-professional.dto';
 import { Public } from '@psycare/decorators';
 import { Language, ProfessionalType } from '@psycare/enums';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('professional')
+@ApiTags('professional')
 export class ProfessionalController {
     constructor(private readonly professionalService: ProfessionalService) {}
 
