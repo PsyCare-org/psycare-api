@@ -1,8 +1,12 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateNoteDto } from './create-note.dto';
+import { CreateMeetingDto } from './create-meeting.dto';
 import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 
-export class UpdateNoteDto extends PartialType(CreateNoteDto) {
+export class UpdateMeetingDto extends PartialType(CreateMeetingDto) {
+    @IsString()
+    @IsNotEmpty()
+    dateTime: string;
+
     @IsString()
     @IsNotEmpty()
     status: string;
@@ -13,9 +17,9 @@ export class UpdateNoteDto extends PartialType(CreateNoteDto) {
 
     @IsString()
     @ValidateIf((_, value) => value !== null && value !== undefined)
-    analisys?: string;
+    analisys: string;
 
     @IsString()
     @ValidateIf((_, value) => value !== null && value !== undefined)
-    observations?: string;
+    observations: string;
 }

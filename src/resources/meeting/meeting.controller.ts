@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
 import { MeetingService } from './meeting.service';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateMeetingDto } from './dto/create-meeting.dto';
+import { UpdateMeetingDto } from './dto/update-meeting.dto';
 
 @Controller('meeting')
 @ApiTags('meeting')
@@ -16,6 +17,11 @@ export class MeetingController {
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.meetingService.findOne(+id);
+    }
+
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() updateDto: UpdateMeetingDto) {
+        return this.meetingService.update(+id, updateDto);
     }
 
     @Delete(':id')

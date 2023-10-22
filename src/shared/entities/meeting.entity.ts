@@ -1,6 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Attendance } from './attendance.entity';
-import { Note } from './note.entity';
 
 @Entity('meeting')
 export class Meeting {
@@ -20,11 +19,45 @@ export class Meeting {
     })
     dateTime: string;
 
-    @OneToOne(() => Note, (note) => note.meeting, { nullable: true })
-    note?: Note;
+    @Column({
+        type: 'varchar',
+        length: 1000,
+    })
+    status: string;
 
-    constructor(attendanceId: number, dateTime?: string) {
+    @Column({
+        type: 'varchar',
+        length: 2000,
+    })
+    relatory: string;
+
+    @Column({
+        type: 'varchar',
+        length: 1000,
+        nullable: true,
+    })
+    analisys?: string;
+
+    @Column({
+        type: 'varchar',
+        length: 1000,
+        nullable: true,
+    })
+    observations?: string;
+
+    constructor(
+        attendanceId: number,
+        dateTime: string,
+        status: string,
+        relatory: string,
+        analisys?: string,
+        observations?: string,
+    ) {
         this.attendanceId = attendanceId;
         this.dateTime = dateTime;
+        this.status = status;
+        this.relatory = relatory;
+        this.analisys = analisys;
+        this.observations = observations;
     }
 }

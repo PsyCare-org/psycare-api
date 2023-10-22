@@ -6,4 +6,3 @@ export * from './rating.entity';
 export * from './medical-record.entity';
 export * from './follow-up.entity';
 export * from './meeting.entity';
-export * from './note.entity';

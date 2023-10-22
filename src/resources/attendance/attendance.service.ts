@@ -8,12 +8,13 @@ import { ResourceNotFoundException } from '@psycare/exceptions';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
 import { SplitedResult } from './types/splitted-result';
 import { bufferToImage } from '@psycare/helpers';
+import { PersonType } from '@psycare/types';
 
 @Injectable()
 export class AttendanceService {
     constructor(@InjectRepository(Attendance) private repo: Repository<Attendance>) {}
 
-    async findOne(id: number) {
+    async findOne(personType: PersonType, id: number) {
         const attendance = await this.repo.findOne({
             where: { id },
             relations: {
@@ -24,11 +25,9 @@ export class AttendanceService {
                     avatar: true,
                 },
                 rating: true,
-                medicalRecord: true,
                 followUps: true,
-                meetings: {
-                    note: true,
-                },
+                meetings: true,
+                ...(personType === 'professional' && { medicalRecord: true }),
             },
         });
 
@@ -42,10 +41,18 @@ export class AttendanceService {
             attendance.user.avatar = bufferToImage((attendance.user.avatar as Avatar).data);
         }
 
+        if (personType === 'user' && attendance.meetings) {
+            attendance.meetings = attendance.meetings.map((el) => ({
+                id: el.id,
+                attendanceId: el.attendanceId,
+                dateTime: el.dateTime,
+            })) as any;
+        }
+
         return attendance;
     }
 
-    async findAll(personType: 'user' | 'professional', id: number) {
+    async findAll(personType: PersonType, id: number) {
         const [result, total] = await this.repo.findAndCount({
             where: {
                 ...(personType === 'user' && { userId: id }),

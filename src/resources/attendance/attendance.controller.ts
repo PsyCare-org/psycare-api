@@ -3,19 +3,20 @@ import { AttendanceService } from './attendance.service';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { PersonType } from '@psycare/types';
 
 @Controller('attendance')
 @ApiTags('attendance')
 export class AttendanceController {
     constructor(private readonly attendanceService: AttendanceService) {}
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.attendanceService.findOne(+id);
+    @Get(':personType/:id')
+    findOne(@Param('personType') personType: PersonType, @Param('id') id: string) {
+        return this.attendanceService.findOne(personType, +id);
     }
 
-    @Get(':personType/:id')
-    findAll(@Param('personType') personType: 'user' | 'professional', @Param('id') id: number) {
+    @Get('list/:personType/:id')
+    findAll(@Param('personType') personType: PersonType, @Param('id') id: number) {
         return this.attendanceService.findAll(personType, +id);
     }
 

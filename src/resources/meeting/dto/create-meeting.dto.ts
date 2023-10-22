@@ -6,6 +6,22 @@ export class CreateMeetingDto {
     attendanceId: number;
 
     @IsString()
-    @ValidateIf((_, value) => value !== null && value !== undefined)
+    @IsNotEmpty()
     dateTime: string;
+
+    @IsString()
+    @IsNotEmpty()
+    status: string;
+
+    @IsString()
+    @IsNotEmpty()
+    relatory: string;
+
+    @IsString()
+    @ValidateIf((_, value) => value !== null && value !== undefined)
+    analisys: string;
+
+    @IsString()
+    @ValidateIf((_, value) => value !== null && value !== undefined)
+    observations: string;
 }
