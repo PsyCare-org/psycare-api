@@ -11,7 +11,14 @@ export class FollowUpService {
     constructor(@InjectRepository(FollowUp) private repo: Repository<FollowUp>) {}
 
     create(createDto: CreateFollowUpDto) {
-        const medicalRecord: FollowUp = new FollowUp(createDto.attendanceId, createDto.title, createDto.description);
+        console.log(createDto);
+        const medicalRecord: FollowUp = new FollowUp(
+            createDto.attendanceId,
+            createDto.title,
+            createDto.type,
+            false,
+            createDto.description,
+        );
 
         return this.repo.save(medicalRecord);
     }

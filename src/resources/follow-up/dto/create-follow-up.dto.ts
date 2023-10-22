@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
+import { FollowUpType } from '@psycare/enums';
+import { IsEnum, IsNotEmpty, IsNumber, IsString, ValidateIf } from 'class-validator';
 
 export class CreateFollowUpDto {
     @IsNumber()
@@ -8,6 +9,10 @@ export class CreateFollowUpDto {
     @IsString()
     @IsNotEmpty()
     title: string;
+
+    @IsEnum(FollowUpType)
+    @IsNotEmpty()
+    type: FollowUpType;
 
     @IsString()
     @ValidateIf((_, value) => value !== null && value !== undefined)

@@ -3,3 +3,4 @@ export * from './calendar-hour';
 export * from './gender';
 export * from './language';
 export * from './professional-type';
+export * from './follow-up-type';
