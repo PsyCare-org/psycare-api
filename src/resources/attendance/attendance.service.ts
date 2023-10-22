@@ -34,6 +34,14 @@ export class AttendanceService {
 
         if (!attendance) throw new NotFoundException();
 
+        if (attendance.professional.avatar) {
+            attendance.professional.avatar = bufferToImage((attendance.professional.avatar as Avatar).data);
+        }
+
+        if (attendance.user.avatar) {
+            attendance.user.avatar = bufferToImage((attendance.user.avatar as Avatar).data);
+        }
+
         return attendance;
     }
 
