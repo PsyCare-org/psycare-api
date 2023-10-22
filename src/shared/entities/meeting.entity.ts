@@ -21,7 +21,7 @@ export class Meeting {
     dateTime: string;
 
     @OneToOne(() => Note, (note) => note.meeting, { nullable: true })
-    note: Note;
+    note?: Note;
 
     constructor(attendanceId: number, dateTime?: string) {
         this.attendanceId = attendanceId;

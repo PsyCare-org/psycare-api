@@ -24,7 +24,7 @@ export class FollowUp {
         length: 1000,
         nullable: true,
     })
-    description: string;
+    description?: string;
 
     constructor(attendanceId: number, title: string, description?: string) {
         this.attendanceId = attendanceId;

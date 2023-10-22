@@ -58,6 +58,7 @@ export class AttendanceService {
                 professional: {
                     avatar: true,
                 },
+                meetings: true,
             },
         });
 
