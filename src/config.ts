@@ -1,5 +1,9 @@
 export default () => ({
     port: parseInt(process.env.PORT) || 8000,
+    call: {
+        apiUrl: process.env.CALL_API_URL,
+        token: process.env.CALL_TOKEN,
+    },
     professional: {
         validationUrl: 'https://cadastro.cfp.org.br/',
         bypass: {
