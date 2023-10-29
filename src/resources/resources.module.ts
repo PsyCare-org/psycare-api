@@ -9,6 +9,7 @@ import { MedicalRecordModule } from './medical-record/medical-record.module';
 import { FollowUpModule } from './follow-up/follow-up.module';
 import { MeetingModule } from './meeting/meeting.module';
 import { CallModule } from './call/call.module';
+import { MessageModule } from './message/message.module';
 
 const resources = [
     AttendanceModule,
@@ -21,6 +22,7 @@ const resources = [
     FollowUpModule,
     MeetingModule,
     CallModule,
+    MessageModule,
 ];
 
 @Module({

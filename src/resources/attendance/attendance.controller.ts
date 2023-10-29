@@ -15,9 +15,14 @@ export class AttendanceController {
         return this.attendanceService.findOne(personType, +id);
     }
 
-    @Get('list/:personType/:id')
-    findAll(@Param('personType') personType: PersonType, @Param('id') id: number) {
+    @Get(':personType/:id/list')
+    findAll(@Param('personType') personType: PersonType, @Param('id') id: string) {
         return this.attendanceService.findAll(personType, +id);
+    }
+
+    @Get(':personType/:id/messages')
+    findAllMessages(@Param('personType') personType: PersonType, @Param('id') id: string) {
+        return this.attendanceService.findAllMessages(personType, +id);
     }
 
     @Post()

@@ -16,6 +16,7 @@ import { Rating } from './rating.entity';
 import { MedicalRecord } from './medical-record.entity';
 import { FollowUp } from './follow-up.entity';
 import { Meeting } from './meeting.entity';
+import { Message } from './message.entity';
 
 @Entity('attendance')
 @Unique('professional_user_index', ['professionalId', 'userId'])
@@ -60,6 +61,9 @@ export class Attendance {
 
     @OneToMany(() => Meeting, (meeting) => meeting.attendance)
     meetings?: Meeting[];
+
+    @OneToMany(() => Message, (message) => message.attendance)
+    messages?: Message[];
 
     @CreateDateColumn()
     createdAt: Date;

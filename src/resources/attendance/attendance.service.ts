@@ -91,6 +91,47 @@ export class AttendanceService {
         };
     }
 
+    async findAllMessages(personType: PersonType, id: number) {
+        const [result, total] = await this.repo.findAndCount({
+            where: {
+                ...(personType === 'user' && { userId: id }),
+                ...(personType === 'professional' && { professionalId: id }),
+            },
+            relations: {
+                user: {
+                    avatar: true,
+                },
+                professional: {
+                    avatar: true,
+                },
+                messages: true,
+            },
+            order: {
+                messages: {
+                    createdAt: 'DESC',
+                },
+            },
+        });
+
+        return {
+            data: result.map((el: any) => {
+                if (el.professional.avatar) {
+                    el.professional.avatar = bufferToImage((el.professional.avatar as Avatar).data);
+                }
+
+                if (el.user.avatar) {
+                    el.user.avatar = bufferToImage((el.user.avatar as Avatar).data);
+                }
+
+                el.lastMessage = el.messages ? el.messages[0] : null;
+                delete el.messages;
+
+                return el;
+            }),
+            total,
+        };
+    }
+
     create(createAttendanceDto: CreateAttendanceDto) {
         const attendance: Attendance = new Attendance(
             AttendanceStatus.pending,
