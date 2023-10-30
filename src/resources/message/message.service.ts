@@ -17,7 +17,7 @@ export class MessageService {
     async listAll(attendanceId: number) {
         const [result, total] = await this.repo.findAndCount({
             where: { attendanceId },
-            order: { createdAt: 'DESC' },
+            order: { createdAt: 'ASC' },
         });
 
         return {

@@ -108,7 +108,7 @@ export class AttendanceService {
             },
             order: {
                 messages: {
-                    createdAt: 'DESC',
+                    createdAt: 'ASC',
                 },
             },
         });
@@ -123,7 +123,7 @@ export class AttendanceService {
                     el.user.avatar = bufferToImage((el.user.avatar as Avatar).data);
                 }
 
-                el.lastMessage = el.messages ? el.messages[0] : null;
+                el.lastMessage = el.messages ? el.messages[el.messages.length - 1] : null;
                 delete el.messages;
 
                 return el;
