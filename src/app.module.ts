@@ -6,6 +6,7 @@ import { ResourcesModule } from './resources/resources.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthGuard } from '@psycare/guards';
 import { ErrorInterceptor } from '@psycare/interceptors';
+import { CoreModule } from './core/core.module';
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import { ErrorInterceptor } from '@psycare/interceptors';
             useFactory: (config: ConfigService) => config.get('database'),
             inject: [ConfigService],
         }),
+        CoreModule,
         ResourcesModule,
     ],
     providers: [
