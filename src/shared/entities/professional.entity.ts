@@ -1,11 +1,72 @@
-import { Person } from '@psycare/classes';
 import { Gender, Language, ProfessionalType } from '@psycare/enums';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Attendance } from './attendance.entity';
 import { Rating } from './rating.entity';
+import { Avatar } from './avatar.entity';
 
 @Entity('professional')
-export class Professional extends Person {
+export class Professional {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({
+        type: 'varchar',
+        length: 255,
+        unique: true,
+    })
+    email: string;
+
+    @Column({
+        type: 'varchar',
+        length: 255,
+        select: false,
+    })
+    password: string;
+
+    @Column({
+        type: 'varchar',
+        length: 15,
+        nullable: true,
+    })
+    phoneNumber?: string;
+
+    @Column({
+        type: 'varchar',
+        length: 255,
+    })
+    name: string;
+
+    @Column({
+        type: 'varchar',
+        length: 255,
+        nullable: true,
+    })
+    surname?: string | null;
+
+    @Column({
+        type: 'enum',
+        enum: Gender,
+    })
+    gender: Gender;
+
+    @Column({
+        type: 'date',
+    })
+    birthDate: Date;
+
+    @JoinColumn({ name: 'avatarId' })
+    @OneToOne(() => Avatar, { nullable: true })
+    avatar?: Avatar | string | null;
+
+    @Column({ nullable: true })
+    avatarId?: number | null;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @CreateDateColumn()
+    updatedAt: Date;
+
     @Column({
         type: 'varchar',
         length: 14,
@@ -93,8 +154,13 @@ export class Professional extends Person {
         description?: string,
         historic?: string,
     ) {
-        super(email, password, phoneNumber, name, surname, gender, birthDate);
-
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.name = name;
+        this.surname = surname;
+        this.gender = gender;
+        this.birthDate = birthDate;
         this.cpf = cpf;
         this.crp = crp;
         this.type = type;
