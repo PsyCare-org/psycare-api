@@ -63,7 +63,7 @@ export const professionalData: Partial<Professional>[] = [
         specializations: 'Terapia Artística e Expressiva, Desenvolvimento Pessoal e Crescimento Profissional, Mindfulness e Bem-Estar Emocional',
     },
     {
-        name: 'Jordan',
+        name: 'Matheus',
         surname: 'Moraes',
         gender: Gender.occult,
         abstract: 'Coach de Desempenho Pessoal comprometido em inspirar e orientar para o sucesso. Seja a melhor versão de você mesmo.',
@@ -233,7 +233,7 @@ export const professionalData: Partial<Professional>[] = [
         specializations: 'Terapia Holística Integrativa, Mindfulness e Bem-Estar Emocional, Desenvolvimento Pessoal e Autoaceitação'
     },
     {
-        name: 'Jordan',
+        name: 'Pedro',
         surname: 'Silveira',
         gender: Gender.fluid,
         abstract: 'Terapeuta Artísticx dedicadx à expressão criativa para cura emocional. Descubra seu potencial artístico interior.',
