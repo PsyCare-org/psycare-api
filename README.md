@@ -1,73 +1,57 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# PsyCare API
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/PsyCare-org/psycare-api/blob/main/README.md)
+[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/PsyCare-org/psycare-api/blob/main/README.pt-br.md)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## About
+Rest API that provides authentication and CRUD operations to manage data related to the PsyCare application. The main technologies used in the development were:
+* [NestJS] (https://nestjs.com/)
+* [TypeORM] (https://typeorm.io/)
+* [PostgreSQL](https://www.postgresql.org/)
+* [VideoSDK] (https://www.videosdk.live/)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Getting Started
+### Prerequisites
+You will need [NodeJS](https://nodejs.org/en/download/),  a package manager of your choice and the [PostgreSQL](https://www.postgresql.org/).
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+### Environment variables
+In the root of the project, create a file called .env, with the following content, filling it with your values:
+```
+PORT=<port where the API will run>
+DB_HOST=<database host>
+DB_PORT=<database port>
+DB_USERNAME=<database user>
+DB_PASSWORD=<database user password>
+DB_NAME=<database name>
+AUTH_PRIVATE_KEY=<secret key for encryption (jwt) and creation of user keys>
+AUTH_PUBLIC_KEY=<public key for encryption (jwt) and creation of user keys>
+CALL_API_URL=<VideoSDK API url>
+CALL_TOKEN=<VideoSDK API Token>
 ```
 
-## Running the app
+The `.env.example` file contains an example of what the environment variables file should look like.
 
-```bash
-# development
-$ npm run start
+### Installation
+1. Clone the repo
+   ```sh
+   git clone https://github.com/PsyCare-org/psycare-api
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+4. Run it
+   ```sh
+   npm start
+   ```
 
-# watch mode
-$ npm run start:dev
+NOTE: Before running the application it may be necessary to create a database with the name entered in the environment variables.
 
-# production mode
-$ npm run start:prod
-```
+## Usage
+The API can be used alone, however, it was developed exclusively to be the back-end of the project.
 
-## Test
+The available routes can be found once the application is running, within swagger. They will be on the `/api` route.
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Furthermore, the application also has a seed with fake data for the database. Just run `npm run seed:run`.
 
 ## License
-
-Nest is [MIT licensed](LICENSE).
+Distributed under the MIT License. See `LICENSE.txt` for more information.
