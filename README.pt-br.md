@@ -4,10 +4,10 @@
 
 ## Sobre
 API Rest que provê autenticação e operações CRUD, para gerenciar os dados relacionados à aplicação PsyCare. As principais tecnologias utilizadas no desenvolvimento foram:
-* [NestJS] (https://nestjs.com/)
-* [TypeORM] (https://typeorm.io/)
+* [NestJS](https://nestjs.com/)
+* [TypeORM](https://typeorm.io/)
 * [PostgreSQL](https://www.postgresql.org/)
-* [VideoSDK] (https://www.videosdk.live/)
+* [VideoSDK](https://www.videosdk.live/)
 
 ## Começando
 ### Pré-requisitos
